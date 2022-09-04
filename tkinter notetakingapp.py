@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
+from tkinter import messagebox
 import os
 import json
 
@@ -102,8 +103,7 @@ class NewprojectApp:
             try: os.mkdir(self.notesFolder)
             except: print("couldnt create"+self.notesFolder)
         if (os.path.exists(self.note)==False):
-            try: 
-                open(self.note,'w')
+            try: open(self.note,'w')
             except:print('couldnt create'+self.note)
         if (os.path.exists(self.config)==False):
             try:
@@ -111,11 +111,11 @@ class NewprojectApp:
                     json.dump({'currentNote':'%s' % (self.note)},f)
                     f.close()
             except:print('couldnt create'+self.config)                               
-        try:                                                    # every startup config.json has to be read once so the current note from last session can be retrieved.              
-            with open(self.config,'r') as f:                    # if something goes wrong
+        try:                                                        # every startup config.json has to be read once so the current note from last session can be retrieved.              
+            with open(self.config,'r') as f:                        # if something goes wrong
                 self.currentNote=json.load(f)['currentNote']            
                 f.close()
-        except:                                                 # if something goes wrong reading the config.json
+        except:                                                     # if something goes wrong reading the config.json
             print("something went wrong reading the currentnote")
             with open(self.config,'w') as f: 
                 json.dump({'currentNote':'%s' % (self.note)},f)
@@ -140,9 +140,14 @@ class NewprojectApp:
         self.mainwindow.mainloop()
 
     def Read(self,event=None):                                      # reads the self.current note   
-        with open(self.currentNote,'r') as f:                       # reading the .txt file and making the array output.
-            output=f.readlines()
-            f.close()
+        try:
+            with open(self.currentNote,'r') as f:                       # reading the .txt file and making the array output.
+                output=f.readlines()
+                f.close()
+        except:
+            self.ChangeCurrentNote(path=self.note)
+            messagebox.showwarning("Warning","Application was moved, restart")
+            self.Quit()
         self.text1.delete('1.0','end-1c')                           # deleting what text was there before
         for x in range(0,len(output)):                              # filling the text1 
             self.text1.insert('%s.0'%(x+1),output[x])               
