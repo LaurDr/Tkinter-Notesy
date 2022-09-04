@@ -140,11 +140,11 @@ class NewprojectApp:
         self.mainwindow.mainloop()
 
     def Read(self,event=None):                                      # reads the self.current note   
-        try:
+        try:                    
             with open(self.currentNote,'r') as f:                       # reading the .txt file and making the array output.
                 output=f.readlines()
                 f.close()
-        except:
+        except:                                                         # if the main file was moved, read will raise an exception because it cannot read the original path. This rewrites config.json back to the new path
             self.ChangeCurrentNote(path=self.note)
             messagebox.showwarning("Warning","Application was moved, restart")
             self.Quit()
