@@ -4,6 +4,11 @@ This is a notetaking app made using tkinter.
 ## Manual
 ![Untitled](https://user-images.githubusercontent.com/97748294/188282962-101705aa-09e6-4aca-9be4-45a4d3af6aa8.png)
 
+## Key Bindings
+
+`OPT-BackSpace` : There is no official support for OPT-BackSpace for tkinter.text. This keybinding adds it.
+
+`CMD-=`/`CMD--` : This keybinding allows font increase and decrease. The default fontsize gets restored every session. (If you wish to change the default size, edit `self.font=13` in 'tkinter notetakingapp.py' *BEFORE* using pyinstaller) 
 
 ## Installing the app
 
