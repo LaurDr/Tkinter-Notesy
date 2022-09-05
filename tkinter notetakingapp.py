@@ -36,8 +36,9 @@ class NewprojectApp:
 
         self.frame1 = ttk.Frame(self.toplevel1)
         self.text1 = tk.Text(self.frame1)
+        self.font=13
         self.text1.configure(
-            font="{Apple Braille} 13 {}",
+            font="{Apple Braille} %s {}"%(self.font),
             highlightbackground="#1e1e1e",              # tk.text has weird highlight colors. Used a neutral color so it cant be seen
             highlightcolor="#1e1e1e",                      
             tabs=30,
@@ -46,6 +47,8 @@ class NewprojectApp:
         )
         self.text1.pack(expand=True,fill="both")
         self.text1.bind("<Mod2-BackSpace>",self.OptDelete)
+        self.text1.bind('<Mod1-=>',self.Fontsizeplus)
+        self.text1.bind('<Mod1-minus>',self.Fontsizeminus)
 
         self.Read()                                     # first read here because text1 wasnt created yet
 
@@ -135,6 +138,19 @@ class NewprojectApp:
 
     def OptDelete(self,event=None):                                 # cannot use opt+backspace in tk.text. workaround is by creating the event of holding shift, opt and going left every time i press opt+backspace.
         self.text1.event_generate('<Shift-Mod2-Left>')
+
+    def Fontsizeplus(self,event=None):                              # increase font size. 
+        self.font += 1
+        self.text1.configure(
+        font="{Apple Braille} %s {}"%(self.font))
+        print("increase")
+
+    def Fontsizeminus(self,event=None):                             # decrease font size
+        self.font -= 1
+        self.text1.configure(
+        font="{Apple Braille} %s {}"%(self.font))
+        print("decrease")
+
 
     def run(self):
         self.mainwindow.mainloop()
